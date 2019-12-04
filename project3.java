@@ -46,7 +46,7 @@ public class project3 implements ActionListener {
    static String[] columnName = {"Date", "Trans.Type", "Check NO.", "Trans.Description", "Withdrawal (-)", "Deposit (+)", "Balance"};
    static int Tnumber = 0;
    public static void main(String[] args) {
-      ActionListener AL = new project2();
+      ActionListener AL = new project3();
       JFrame frame = new JFrame("Checkbook");
       contentPane = frame.getContentPane();
       contentPane.setLayout(contentPaneLayout=new CardLayout());
