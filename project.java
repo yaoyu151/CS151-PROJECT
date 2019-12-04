@@ -1,7 +1,3 @@
-/*Yao Yu
-  CSC 20
-  PROJECT
-  */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -18,8 +14,6 @@ public class project implements ActionListener {
    static JButton createNew;
    static JButton loadf;
    static JButton add;
-   static JButton searcht;
-   static JButton sortTrans;
    static JButton view;
    static JButton save;
    static JButton exit;
@@ -49,7 +43,7 @@ public class project implements ActionListener {
    static JScrollPane scrollPane2 = new JScrollPane();
    static JScrollPane scrollPane = new JScrollPane();
   
-   static String[] columnName = {"Date", "Trans.Type", "Check NO.", "Trans.Description", "Payment/Debit(-)", "Deposit/Credit(+)", "Balance"};
+   static String[] columnName = {"Date", "Trans.Type", "Check NO.", "Trans.Description", "Withdrawal (-)", "Deposit (+)", "Balance"};
    static int Tnumber = 0;
    public static void main(String[] args) {
       ActionListener AL = new project();
@@ -74,8 +68,6 @@ public class project implements ActionListener {
       buttons.add(createNew = new JButton("Create a New Account"));
       buttons.add(loadf = new JButton("Load Trans From a File"));
       buttons.add(add = new JButton("Add New Transactions"));
-      buttons.add(searcht = new JButton("Search Transactions"));
-      buttons.add(sortTrans = new JButton("Sort Transactions"));
       buttons.add(view = new JButton("View/Delete Transactions"));
       buttons.add(save = new JButton("Save Trans to a File"));
       buttons.add(exit = new JButton("Exit"));
@@ -122,10 +114,10 @@ public class project implements ActionListener {
       CheckNO.setEditable(false);
       transBut.add(new JLabel("Trans. Description: ", JLabel.RIGHT));
       transBut.add(TransDes = new JTextField(20));
-      transBut.add(new JLabel("Payment/Debit(-): ", JLabel.RIGHT));
+      transBut.add(new JLabel("Withdrawal (-): ", JLabel.RIGHT));
       transBut.add(debit = new JTextField(20));
       debit.setEditable(false);
-      transBut.add(new JLabel("Deposit/Credit(+): ", JLabel.RIGHT));
+      transBut.add(new JLabel("Deposit (+): ", JLabel.RIGHT));
       transBut.add(credit = new JTextField(20));
       JPanel buttons3 = new JPanel(new FlowLayout());
       buttons3.add(saveNew = new JButton("Save New Transaction"));
@@ -141,8 +133,6 @@ public class project implements ActionListener {
       JPanel search2 = new JPanel(new GridLayout(2,0));
       JPanel searchS = new JPanel(new FlowLayout());
       searchS.add(new JLabel("Search String: "));
-      JTextField string;
-      searchS.add(string = new JTextField(20));
       JPanel buttons4 = new JPanel(new FlowLayout());
       buttons4.add(search1 = new JButton("Search"));
       buttons4.add(topMenu2 = new JButton("Top Menu"));
@@ -186,8 +176,6 @@ public class project implements ActionListener {
       createNew.addActionListener(AL);
       loadf.addActionListener(AL);
       add.addActionListener(AL);
-      searcht.addActionListener(AL);
-      sortTrans.addActionListener(AL);
       view.addActionListener(AL);
       save.addActionListener(AL);
       exit.addActionListener(AL);
@@ -266,10 +254,6 @@ public class project implements ActionListener {
       if (source == loadf) {contentPaneLayout.show(contentPane, "Card 3"); 
          return;}
       if (source == add) {contentPaneLayout.show(contentPane, "Card 4"); 
-         return;}
-      if (source == searcht) {contentPaneLayout.show(contentPane, "Card 5"); 
-         return;}
-      if (source == sortTrans) {contentPaneLayout.show(contentPane, "Card 6"); 
          return;}
       if (source == save) {
          try {	FileOutputStream fos = new FileOutputStream (accountName.getText(), false);
@@ -406,9 +390,6 @@ public class project implements ActionListener {
       if (source == saveNew) {
          Transaction T = new Transaction();
          T.date = date.getText();
-         if (TransType.equals("Check")) {
-         T.CheckNO = (int) Double.parseDouble(CheckNO.getText());
-         }
          T.TransactionsDes = TransDes.getText();
          T.transactionType = SelectType.getSelectedIndex(); 
          if (T.transactionType<=1) {
@@ -417,7 +398,14 @@ public class project implements ActionListener {
          }
          else {
             T.amount = Double.parseDouble(debit.getText());
-            Balance -= T.amount;
+            if(T.amount<=Balance)
+            {
+            	Balance -= T.amount;
+            }
+            else
+            {
+            	JOptionPane.showMessageDialog(TransDes, "Balance not sufficent for deposit");
+            }
          }
          TA [Tnumber++] = T;
          date.setText("");  
@@ -430,4 +418,3 @@ public class project implements ActionListener {
    }
       
 }
-
