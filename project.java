@@ -413,11 +413,11 @@ public class project implements ActionListener {
          T.transactionType = SelectType.getSelectedIndex(); 
          if (T.transactionType<=1) {
             T.amount = Double.parseDouble(credit.getText()); 
-            Balance -= T.amount;
+            Balance += T.amount;
          }
          else {
             T.amount = Double.parseDouble(debit.getText());
-            Balance += T.amount;
+            Balance -= T.amount;
          }
          TA [Tnumber++] = T;
          date.setText("");  
